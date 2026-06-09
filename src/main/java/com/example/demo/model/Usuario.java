@@ -53,7 +53,7 @@ public class Usuario {
 
     public Usuario(Integer id, String nome, String email, String senha, String cpf, String telefone, String endereco,
             String cep,
-            String cidade, String estado, LocalDate data_nascimento, String genero, UserRole.Role role) {
+            String cidade, String estado, LocalDate dataNascimento, String genero, UserRole.Role role) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -64,7 +64,7 @@ public class Usuario {
         this.cep = cep;
         this.cidade = cidade;
         this.estado = estado;
-        this.dataNascimento = data_nascimento;
+        this.dataNascimento = dataNascimento;
         this.genero = genero;
         this.role = role;
     }
@@ -149,12 +149,12 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public LocalDate getData_nascimento() {
+    public LocalDate getDataNascimento() {
         return this.dataNascimento;
     }
 
-    public void setData_nascimento(LocalDate data_nascimento) {
-        this.dataNascimento = data_nascimento;
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public String getGenero() {
