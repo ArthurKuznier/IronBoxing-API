@@ -5,32 +5,26 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 
 @Entity
-@Table(name = "treinador")
-public class Treinador {
+@Table(name = "atleta")
+public class Atleta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "O cref não pode estar em branco")
-    private String cref;
-    @NotBlank(message = "A especialidade não pode estar em branco")
-    private String especialidade;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    public Treinador() {
+    public Atleta() {
     }
 
-    public Treinador(Integer id, String cref, String especialidade) {
+    public Atleta(Integer id, Usuario usuario) {
         this.id = id;
-        this.cref = cref;
-        this.especialidade = especialidade;
+        this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -41,22 +35,6 @@ public class Treinador {
         this.id = id;
     }
 
-    public String getCref() {
-        return this.cref;
-    }
-
-    public void setCref(String cref) {
-        this.cref = cref;
-    }
-
-    public String getEspecialidade() {
-        return this.especialidade;
-    }
-
-    public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
@@ -64,4 +42,5 @@ public class Treinador {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
 }
