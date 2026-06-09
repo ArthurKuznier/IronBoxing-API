@@ -11,12 +11,12 @@ INSERT INTO plano (nome, valor) VALUES
 -- ID 5: Maria Santos (Atleta)
 -- ID 6: Admin Geral (Admin)
 INSERT INTO usuario (nome, email, senha, cpf, telefone, endereco, cep, cidade, estado, data_nascimento, genero, role) VALUES
-('João Silva Professor', 'joao.prof@ironboxing.com', '123456', '123.456.789-09', '(11) 99999-9991', 'Av Paulista, 1000', '01310100', 'São Paulo', 'SP', '1985-05-10', 'M', 'TREINADOR'),
-('Maria Santos Professora', 'maria.prof@ironboxing.com', '123456', '987.654.321-00', '(11) 99999-9992', 'Rua Augusta, 500', '01305000', 'São Paulo', 'SP', '1990-08-15', 'F', 'TREINADOR'),
-('Pedro Santos Professor', 'pedro.prof@ironboxing.com', '123456', '111.222.333-96', '(11) 99999-9993', 'Rua Pamplona, 300', '01405000', 'São Paulo', 'SP', '1988-12-20', 'M', 'TREINADOR'),
-('João Silva Atleta', 'joao.atleta@gmail.com', '123456', '222.333.444-05', '(11) 98888-8881', 'Rua das Flores, 10', '02001000', 'São Paulo', 'SP', '1995-03-25', 'M', 'ATLETA'),
-('Maria Santos Atleta', 'maria.atleta@gmail.com', '123456', '555.666.777-20', '(11) 98888-8882', 'Rua das Palmeiras, 20', '02002000', 'São Paulo', 'SP', '1998-07-30', 'F', 'ATLETA'),
-('Admin Geral', 'admin@ironboxing.com', '123456', '999.999.999-99', '(11) 99999-9999', 'Av Brigadeiro, 2000', '01311300', 'São Paulo', 'SP', '1980-01-01', 'M', 'ADMIN');
+('João Silva Professor', 'joao.prof@ironboxing.com', '$2a$10$hKDVYxLefVLYjIwRgt6/JuT5P.VdHhH.z4aQ6H45V6fS/4Xo.j3eq', '123.456.789-09', '(11) 99999-9991', 'Av Paulista, 1000', '01310100', 'São Paulo', 'SP', '1985-05-10', 'M', 'TREINADOR'),
+('Maria Santos Professora', 'maria.prof@ironboxing.com', '$2a$10$hKDVYxLefVLYjIwRgt6/JuT5P.VdHhH.z4aQ6H45V6fS/4Xo.j3eq', '987.654.321-00', '(11) 99999-9992', 'Rua Augusta, 500', '01305000', 'São Paulo', 'SP', '1990-08-15', 'F', 'TREINADOR'),
+('Pedro Santos Professor', 'pedro.prof@ironboxing.com', '$2a$10$hKDVYxLefVLYjIwRgt6/JuT5P.VdHhH.z4aQ6H45V6fS/4Xo.j3eq', '111.222.333-96', '(11) 99999-9993', 'Rua Pamplona, 300', '01405000', 'São Paulo', 'SP', '1988-12-20', 'M', 'TREINADOR'),
+('João Silva Atleta', 'joao.atleta@gmail.com', '$2a$10$hKDVYxLefVLYjIwRgt6/JuT5P.VdHhH.z4aQ6H45V6fS/4Xo.j3eq', '222.333.444-05', '(11) 98888-8881', 'Rua das Flores, 10', '02001000', 'São Paulo', 'SP', '1995-03-25', 'M', 'ATLETA'),
+('Maria Santos Atleta', 'maria.atleta@gmail.com', '$2a$10$hKDVYxLefVLYjIwRgt6/JuT5P.VdHhH.z4aQ6H45V6fS/4Xo.j3eq', '555.666.777-20', '(11) 98888-8882', 'Rua das Palmeiras, 20', '02002000', 'São Paulo', 'SP', '1998-07-30', 'F', 'ATLETA'),
+('Admin Geral', 'admin@ironboxing.com', '$2a$10$hKDVYxLefVLYjIwRgt6/JuT5P.VdHhH.z4aQ6H45V6fS/4Xo.j3eq', '999.999.999-99', '(11) 99999-9999', 'Av Brigadeiro, 2000', '01311300', 'São Paulo', 'SP', '1980-01-01', 'M', 'ADMIN');
 
 -- Perfis de Treinadores
 INSERT INTO treinador (usuario_id, cref, especialidade) VALUES

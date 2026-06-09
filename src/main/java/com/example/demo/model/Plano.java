@@ -16,7 +16,7 @@ import jakarta.validation.constraints.Positive;
 public class Plano {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     @NotBlank(message = "O nome do plano é obrigatório")
     private String nome;
     @NotNull
@@ -26,17 +26,17 @@ public class Plano {
     public Plano() {
     }
 
-    public Plano(Long id, String nome, BigDecimal valor) {
+    public Plano(Integer id, String nome, BigDecimal valor) {
         this.id = id;
         this.nome = nome;
         this.valor = valor;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
