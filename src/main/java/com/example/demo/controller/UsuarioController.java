@@ -113,7 +113,7 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletar um usuário por ID", description = "Remove definitivamente um usuário do sistema com base no seu identificador. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "244", description = "Usuário removido com sucesso (No Content)"),
+        @ApiResponse(responseCode = "204", description = "Usuário removido com sucesso (No Content)"),
         @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<Void> deletarUsuario(@PathVariable Integer id) {
