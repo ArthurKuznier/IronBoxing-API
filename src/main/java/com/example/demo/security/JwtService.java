@@ -17,11 +17,10 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    // Chave secreta de 256 bits codificada em Base64 para assinatura HMAC-SHA256
     @Value("${security.jwt.secret-key:M2NmYTc2ZjExNDFlNmU0MGQ2ZDVlZjY2NGE3ODFiMGEyYzkxODJhMGIxMmJjMTIzNDVlNmY3YThiOWMwZDFl}")
     private String secretKey;
 
-    @Value("${security.jwt.expiration-time:86400000}") // 1 dia em milissegundos
+    @Value("${security.jwt.expiration-time:86400000}")
     private long jwtExpiration;
 
     public String extractUsername(String token) {
