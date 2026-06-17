@@ -3,6 +3,11 @@ package com.example.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import com.example.demo.security.JwtService;
 import jakarta.validation.Valid;
 import com.example.demo.model.Usuario;
 import com.example.demo.model.UserRole;
@@ -17,6 +22,12 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtService jwtService;
+
     @PostMapping
     public ResponseEntity<Usuario> criarUsuario(@Valid @RequestBody Usuario usuario) {
         Usuario criado = usuarioService.criarUsuario(usuario);
@@ -24,9 +35,29 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Usuario> entrarUsuario(@RequestBody Map<String, String> credentials) {
-        Usuario logado = usuarioService.entrarUsuario(credentials.get("email"), credentials.get("senha"));
-        return ResponseEntity.ok(logado);
+    public ResponseEntity<Map<String, Object>> entrarUsuario(@RequestBody Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String senha = credentials.get("senha");
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, senha)
+        );
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Usuario usuario = usuarioService.buscarPorEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        String token = jwtService.generateToken(userDetails);
+        
+        // Ocultar a senha no retorno
+        usuario.setSenha(null);
+
+        Map<String, Object> response = Map.of(
+                "token", token,
+                "usuario", usuario
+        );
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
