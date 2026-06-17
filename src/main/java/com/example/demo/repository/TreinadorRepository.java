@@ -20,4 +20,6 @@ public interface TreinadorRepository extends JpaRepository<Treinador, Integer> {
     List<Treinador> findByEspecialidade(String especialidade);
 
     Optional<Treinador> findByUsuarioId(Integer usuarioId);
+
+    Optional<Treinador> findByCref(String cref);
 }
