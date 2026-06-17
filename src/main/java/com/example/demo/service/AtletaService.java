@@ -45,4 +45,23 @@ public class AtletaService {
         return atletaRepository.findAll();
     }
 
+    public Optional<Atleta> buscarPorEmail(String email) {
+        return atletaRepository.findByUsuarioEmail(email);
+    }
+
+    public Optional<Atleta> buscarPorCpf(String cpf) {
+        return atletaRepository.findByUsuarioCpf(cpf);
+    }
+
+    public Optional<Atleta> buscarPorTelefone(String telefone) {
+        return atletaRepository.findByUsuarioTelefone(telefone);
+    }
+
+    public List<Atleta> buscarPorGenero(String genero) {
+        return atletaRepository.findByUsuarioGenero(genero);
+    }
+
+    public Optional<Atleta> buscarPorUsuarioId(Integer usuarioId) {
+        return atletaRepository.findByUsuarioId(usuarioId);
+    }
 }
