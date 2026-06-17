@@ -6,22 +6,42 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import com.example.demo.model.Plano;
 import com.example.demo.service.PlanoService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/planos")
+@Tag(name = "Planos", description = "Endpoints de gerenciamento de planos da academia")
 public class PlanoController {
 
     @Autowired
     private PlanoService planoService;
 
     @PostMapping
+    @Operation(summary = "Criar novo plano", description = "Cadastra um novo plano de cobrança da academia (ex: mensal, anual). Rota protegida.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Plano criado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
+    })
     public ResponseEntity<Plano> criarPlano(@Valid @RequestBody Plano plano) {
         Plano criado = planoService.criarPlano(plano);
         return ResponseEntity.ok(criado);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualizar plano existente", description = "Atualiza os dados de um plano cadastrado pelo ID. Rota protegida.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Plano atualizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido"),
+        @ApiResponse(responseCode = "404", description = "Plano não encontrado")
+    })
     public ResponseEntity<Plano> atualizarPlano(@PathVariable Integer id, @Valid @RequestBody Plano plano) {
         plano.setId(id);
         Plano atualizado = planoService.atualizarPlano(plano);
@@ -29,16 +49,32 @@ public class PlanoController {
     }
 
     @GetMapping
+    @Operation(summary = "Listar todos os planos", description = "Retorna a lista de todos os planos cadastrados na academia. Rota protegida.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
+    })
     public ResponseEntity<List<Plano>> listarPlanos() {
         return ResponseEntity.ok(planoService.listarPlanos());
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar plano por ID", description = "Retorna os detalhes de um plano pelo seu ID. Rota protegida.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Plano retornado com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido"),
+        @ApiResponse(responseCode = "404", description = "Plano não encontrado")
+    })
     public ResponseEntity<Plano> buscarPorId(@PathVariable Integer id) {
         return planoService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Excluir um plano", description = "Remove um plano do sistema pelo seu ID. Rota protegida.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Plano excluído com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
+    })
     public ResponseEntity<Void> deletarPlano(@PathVariable Integer id) {
         planoService.deletarPlano(id);
         return ResponseEntity.noContent().build();
