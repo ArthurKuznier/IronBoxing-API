@@ -20,7 +20,7 @@ public class UsuarioService {
     public Usuario criarUsuario(Usuario usuario) {
         Optional<Usuario> emailExistente = usuarioRepository.findByEmail(usuario.getEmail());
         if (emailExistente.isPresent()) {
-            throw new RuntimeException("E-mail já cadastrado, faça o login");
+            throw new RuntimeException("Erro ao salvar usuario, caso já tenha conta faça o login");
         }
         Optional<Usuario> cpfExistente = usuarioRepository.findByCpf(usuario.getCpf());
         if (cpfExistente.isPresent()) {
@@ -28,7 +28,7 @@ public class UsuarioService {
         }
         Optional<Usuario> telefoneExistente = usuarioRepository.findByTelefone(usuario.getTelefone());
         if (telefoneExistente.isPresent()) {
-            throw new RuntimeException("Telefone já cadastrado, faça o login");
+            throw new RuntimeException("Erro ao salvar usuario, caso já tenha conta faça o login");
         }
         String senhaHash = encoder.encode(usuario.getSenha());
         usuario.setSenha(senhaHash);
@@ -61,7 +61,7 @@ public class UsuarioService {
     public Usuario atualizarUsuario(Usuario usuario) {
         Optional<Usuario> emailExistente = usuarioRepository.findByEmail(usuario.getEmail());
         if (emailExistente.isPresent() && !emailExistente.get().getId().equals(usuario.getId())) {
-            throw new RuntimeException("E-mail já cadastrado, faça o login");
+            throw new RuntimeException("Erro ao salvar usuario, caso já tenha conta faça o login");
         }
         Optional<Usuario> cpfExistente = usuarioRepository.findByCpf(usuario.getCpf());
         if (cpfExistente.isPresent() && !cpfExistente.get().getId().equals(usuario.getId())) {
@@ -69,7 +69,7 @@ public class UsuarioService {
         }
         Optional<Usuario> telefoneExistente = usuarioRepository.findByTelefone(usuario.getTelefone());
         if (telefoneExistente.isPresent() && !telefoneExistente.get().getId().equals(usuario.getId())) {
-            throw new RuntimeException("Telefone já cadastrado, faça o login");
+            throw new RuntimeException("Erro ao salvar usuario, caso já tenha conta faça o login");
         }
         return usuarioRepository.save(usuario);
     }
