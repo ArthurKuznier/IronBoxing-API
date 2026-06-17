@@ -15,4 +15,10 @@ public class GlobalExceptionHandler {
         return Map.of("erro", ex.getMessage());
     }
 
+    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Map<String, String> handleAuthenticationException(org.springframework.security.core.AuthenticationException ex) {
+        return Map.of("erro", "Credenciais inválidas: " + ex.getMessage());
+    }
+
 }
