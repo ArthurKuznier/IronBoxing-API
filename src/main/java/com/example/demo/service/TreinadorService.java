@@ -42,19 +42,19 @@ public class TreinadorService {
         Optional<Treinador> treinadorCpfExistente = treinadorRepository
                 .findByUsuarioCpf(treinador.getUsuario().getCpf());
         if (treinadorCpfExistente.isPresent() && !treinadorCpfExistente.get().getId().equals(treinador.getId())) {
-            throw new RuntimeException("CPF já cadastrado");
+            throw new RuntimeException("Dados cadastrais já existentes");
         }
 
         Optional<Treinador> treinadorEmailExistente = treinadorRepository
                 .findByUsuarioEmail(treinador.getUsuario().getEmail());
         if (treinadorEmailExistente.isPresent() && !treinadorEmailExistente.get().getId().equals(treinador.getId())) {
-            throw new RuntimeException("Email já cadastrado");
+            throw new RuntimeException("Dados cadastrais já existentes");
         }
 
         Optional<Treinador> treinadorTelefoneExistente = treinadorRepository
                 .findByUsuarioTelefone(treinador.getUsuario().getTelefone());
         if (treinadorTelefoneExistente.isPresent() && !treinadorTelefoneExistente.get().getId().equals(treinador.getId())) {
-            throw new RuntimeException("Telefone já cadastrado");
+            throw new RuntimeException("Dados cadastrais já existentes");
         }
         Optional<Treinador> treinadorCrefExistente = treinadorRepository.findByCref(treinador.getCref());
         if (treinadorCrefExistente.isPresent() && !treinadorCrefExistente.get().getId().equals(treinador.getId())) {
