@@ -1,0 +1,14 @@
+# Configurações do Aplicativo (Modelo/Exemplo)
+spring.application.name=ironboxing-api
+
+# Variáveis do Banco de Dados PostgreSQL (devem ser fornecidas externamente via Environment Variables)
+# Exemplo de valores a serem configurados em seu ambiente:
+# DB_URL=jdbc:postgresql://localhost:5432/academia
+# DB_USERNAME=postgres
+# DB_PASSWORD=sua_senha_secreta
+
+spring.datasource.url=${DB_URL}
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=validate
