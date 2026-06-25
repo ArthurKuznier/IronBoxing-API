@@ -19,21 +19,21 @@ public class Matricula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull(message = "O atleta Ã© obrigatÃ³rio")
+    @NotNull(message = "O atleta é obrigatório")
     @ManyToOne
     @JoinColumn(name = "atleta_id")
     private Atleta atleta;
-    @NotNull(message = "A turma Ã© obrigatÃ³ria")
+    @NotNull(message = "A turma é obrigatória")
     @ManyToOne
     @JoinColumn(name = "turma_id")
     private Turma turma;
-    @NotNull(message = "O plano Ã© obrigatÃ³rio")
+    @NotNull(message = "O plano é obrigatório")
     @ManyToOne
     @JoinColumn(name = "plano_id")
     private Plano plano;
-    @NotNull(message = "A data de matrÃ­cula Ã© obrigatÃ³ria")
+    @NotNull(message = "A data de matrícula é obrigatória")
     private LocalDate dataMatricula;
-    @NotBlank(message = "A situaÃ§Ã£o da matrÃ­cula Ã© obrigatÃ³ria")
+    @NotBlank(message = "A situação da matrícula é obrigatória")
     @Column(columnDefinition = "char(1)")
     @org.hibernate.annotations.JdbcTypeCode(Types.CHAR)
     private String situacaoMat;

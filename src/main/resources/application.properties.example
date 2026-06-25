@@ -12,3 +12,8 @@ spring.datasource.username=${DB_USERNAME}
 spring.datasource.password=${DB_PASSWORD}
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.hibernate.ddl-auto=validate
+
+# Configurações de Segurança JWT
+# JWT_SECRET_KEY=sua_chave_secreta_com_pelo_menos_256_bits_em_base64
+security.jwt.secret-key=${JWT_SECRET_KEY}
+security.jwt.expiration-time=86400000

@@ -15,9 +15,9 @@ public class Treinador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "O cref nÃ£o pode estar em branco")
+    @NotBlank(message = "O cref não pode estar em branco")
     private String cref;
-    @NotBlank(message = "A especialidade nÃ£o pode estar em branco")
+    @NotBlank(message = "A especialidade não pode estar em branco")
     private String especialidade;
 
     @OneToOne(optional = false)

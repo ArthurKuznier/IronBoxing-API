@@ -17,7 +17,7 @@ public class Plano {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "O nome do plano Ã© obrigatÃ³rio")
+    @NotBlank(message = "O nome do plano é obrigatório")
     private String nome;
     @NotNull
     @Positive(message = "O valor deve ser maior que zero")

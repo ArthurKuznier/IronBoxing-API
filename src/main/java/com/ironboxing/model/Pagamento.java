@@ -23,25 +23,25 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "A matrÃ­cula Ã© obrigatÃ³ria")
+    @NotNull(message = "A matrícula é obrigatória")
     @ManyToOne(optional = false)
     @JoinColumn(name = "matricula_id", nullable = false)
     private Matricula matricula;
 
-    @NotNull(message = "A data do pagamento Ã© obrigatÃ³ria")
+    @NotNull(message = "A data do pagamento é obrigatória")
     @Column(name = "data_pagamento")
     private LocalDateTime dataPagamento;
 
-    @NotNull(message = "O valor pago Ã© obrigatÃ³rio")
+    @NotNull(message = "O valor pago é obrigatório")
     @Positive(message = "O valor pago deve ser maior que zero")
     @Column(name = "valor_pago", precision = 12, scale = 2)
     private BigDecimal valorPago;
 
-    @NotBlank(message = "A forma de pagamento Ã© obrigatÃ³ria")
+    @NotBlank(message = "A forma de pagamento é obrigatória")
     @Column(name = "forma_pagamento", length = 20)
     private String formaPagamento;
 
-    @NotBlank(message = "A situaÃ§Ã£o Ã© obrigatÃ³ria")
+    @NotBlank(message = "A situação é obrigatória")
     @Column(columnDefinition = "char(1)")
     @org.hibernate.annotations.JdbcTypeCode(Types.CHAR)
     private String situacao;

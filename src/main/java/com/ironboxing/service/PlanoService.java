@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.ironboxing.model.Plano;
 import com.ironboxing.repository.PlanoRepository;
+import com.ironboxing.exception.BusinessException;
 import java.util.Optional;
 import java.util.List;
 
@@ -16,11 +17,11 @@ public class PlanoService {
     public Plano criarPlano(Plano plano) {
         Optional<Plano> nomeExistente = planoRepository.findByNome(plano.getNome());
         if (nomeExistente.isPresent()) {
-            throw new RuntimeException("Plano jÃ¡ cadastrado");
+            throw new BusinessException("Plano já cadastrado");
         }
         Optional<Plano> valorExistente = planoRepository.findByValor(plano.getValor());
         if (valorExistente.isPresent()) {
-            throw new RuntimeException("Plano jÃ¡ cadastrado com esse valor");
+            throw new BusinessException("Plano já cadastrado com esse valor");
         }
         return planoRepository.save(plano);
     }
@@ -28,11 +29,11 @@ public class PlanoService {
     public Plano atualizarPlano(Plano plano) {
         Optional<Plano> nomeExistente = planoRepository.findByNome(plano.getNome());
         if (nomeExistente.isPresent() && !nomeExistente.get().getId().equals(plano.getId())) {
-            throw new RuntimeException("Plano jÃ¡ cadastrado");
+            throw new BusinessException("Plano já cadastrado");
         }
         Optional<Plano> valorExistente = planoRepository.findByValor(plano.getValor());
         if (valorExistente.isPresent() && !valorExistente.get().getId().equals(plano.getId())) {
-            throw new RuntimeException("Plano jÃ¡ cadastrado com esse valor");
+            throw new BusinessException("Plano já cadastrado com esse valor");
         }
         return planoRepository.save(plano);
     }

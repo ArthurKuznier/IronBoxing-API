@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.ironboxing.security.JwtService;
+import com.ironboxing.exception.EntityNotFoundException;
 import jakarta.validation.Valid;
 import com.ironboxing.model.Usuario;
 import com.ironboxing.model.UserRole;
@@ -23,7 +24,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@Tag(name = "UsuÃ¡rios", description = "Endpoints de gerenciamento de usuÃ¡rios, cadastro e login pÃºblico")
+@Tag(name = "Usuários", description = "Endpoints de gerenciamento de usuários, cadastro e login público")
 public class UsuarioController {
 
     @Autowired
@@ -36,10 +37,10 @@ public class UsuarioController {
     private JwtService jwtService;
 
     @PostMapping
-    @Operation(summary = "Cadastrar um novo usuÃ¡rio", description = "Cria um novo usuÃ¡rio na base de dados com senha criptografada via BCrypt. Rota pÃºblica.")
+    @Operation(summary = "Cadastrar um novo usuário", description = "Cria um novo usuário na base de dados com senha criptografada via BCrypt. Rota pública.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "UsuÃ¡rio cadastrado com sucesso"),
-        @ApiResponse(responseCode = "400", description = "Erros de validaÃ§Ã£o nos campos informados ou dados cadastrais jÃ¡ existentes")
+        @ApiResponse(responseCode = "200", description = "Usuário cadastrado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Erros de validação nos campos informados ou dados cadastrais já existentes")
     })
     public ResponseEntity<Usuario> criarUsuario(@Valid @RequestBody Usuario usuario) {
         Usuario criado = usuarioService.criarUsuario(usuario);
@@ -47,10 +48,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Autenticar usuÃ¡rio", description = "Realiza o login com e-mail e senha, gerando um token JWT de acesso. Rota pÃºblica.")
+    @Operation(summary = "Autenticar usuário", description = "Realiza o login com e-mail e senha, gerando um token JWT de acesso. Rota pública.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Login efetuado com sucesso, retorna o token de acesso e os dados do usuÃ¡rio"),
-        @ApiResponse(responseCode = "401", description = "Credenciais invÃ¡lidas (e-mail ou senha incorretos)")
+        @ApiResponse(responseCode = "200", description = "Login efetuado com sucesso, retorna o token de acesso e os dados do usuário"),
+        @ApiResponse(responseCode = "401", description = "Credenciais inválidas (e-mail ou senha incorretos)")
     })
     public ResponseEntity<Map<String, Object>> entrarUsuario(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
@@ -62,7 +63,7 @@ public class UsuarioController {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Usuario usuario = usuarioService.buscarPorEmail(email)
-                .orElseThrow(() -> new RuntimeException("UsuÃ¡rio nÃ£o encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o e-mail: " + email));
 
         String token = jwtService.generateToken(userDetails);
         
@@ -77,11 +78,11 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar dados de um usuÃ¡rio", description = "Atualiza os dados cadastrais de um usuÃ¡rio existente pelo seu ID. Rota protegida.")
+    @Operation(summary = "Atualizar dados de um usuário", description = "Atualiza os dados cadastrais de um usuário existente pelo seu ID. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "UsuÃ¡rio atualizado com sucesso"),
-        @ApiResponse(responseCode = "400", description = "Dados invÃ¡lidos fornecidos ou dados duplicados com outro usuÃ¡rio"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos ou dados duplicados com outro usuário"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Integer id, @Valid @RequestBody Usuario usuario) {
         usuario.setId(id);
@@ -90,31 +91,33 @@ public class UsuarioController {
     }
 
     @GetMapping
-    @Operation(summary = "Listar todos os usuÃ¡rios", description = "Retorna uma lista completa contendo todos os usuÃ¡rios cadastrados na base de dados. Rota protegida.")
+    @Operation(summary = "Listar todos os usuários", description = "Retorna uma lista completa contendo todos os usuários cadastrados na base de dados. Rota protegida.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<List<Usuario>> listarUsuarios() {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar usuÃ¡rio por ID", description = "Busca os detalhes cadastrais de um usuÃ¡rio especÃ­fico utilizando seu identificador numÃ©rico. Rota protegida.")
+    @Operation(summary = "Buscar usuário por ID", description = "Busca os detalhes cadastrais de um usuário específico utilizando seu identificador numérico. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "UsuÃ¡rio encontrado e retornado com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido"),
-        @ApiResponse(responseCode = "404", description = "UsuÃ¡rio nÃ£o encontrado com o ID informado")
+        @ApiResponse(responseCode = "200", description = "Usuário encontrado e retornado com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido"),
+        @ApiResponse(responseCode = "404", description = "Usuário não encontrado com o ID informado")
     })
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
-        return usuarioService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        Usuario usuario = usuarioService.buscarPorId(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + id));
+        return ResponseEntity.ok(usuario);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deletar um usuÃ¡rio por ID", description = "Remove definitivamente um usuÃ¡rio do sistema com base no seu identificador. Rota protegida.")
+    @Operation(summary = "Deletar um usuário por ID", description = "Remove definitivamente um usuário do sistema com base no seu identificador. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "204", description = "UsuÃ¡rio removido com sucesso (No Content)"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "204", description = "Usuário removido com sucesso (No Content)"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<Void> deletarUsuario(@PathVariable Integer id) {
         usuarioService.deletarUsuario(id);
@@ -122,54 +125,59 @@ public class UsuarioController {
     }
 
     @GetMapping("/email/{email}")
-    @Operation(summary = "Buscar usuÃ¡rio por e-mail", description = "Busca um usuÃ¡rio cadastrado pelo seu endereÃ§o de e-mail. Rota protegida.")
+    @Operation(summary = "Buscar usuário por e-mail", description = "Busca um usuário cadastrado pelo seu endereço de e-mail. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "UsuÃ¡rio localizado e retornado com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido"),
-        @ApiResponse(responseCode = "404", description = "UsuÃ¡rio nÃ£o encontrado com o e-mail informado")
+        @ApiResponse(responseCode = "200", description = "Usuário localizado e retornado com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido"),
+        @ApiResponse(responseCode = "404", description = "Usuário não encontrado com o e-mail informado")
     })
     public ResponseEntity<Usuario> buscarPorEmail(@PathVariable String email) {
-        return usuarioService.buscarPorEmail(email).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        Usuario usuario = usuarioService.buscarPorEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o e-mail: " + email));
+        return ResponseEntity.ok(usuario);
     }
 
     @GetMapping("/cpf/{cpf}")
-    @Operation(summary = "Buscar usuÃ¡rio por CPF", description = "Busca um usuÃ¡rio pelo nÃºmero do seu documento de CPF. Rota protegida.")
+    @Operation(summary = "Buscar usuário por CPF", description = "Busca um usuário pelo número do seu documento de CPF. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "UsuÃ¡rio localizado e retornado com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido"),
-        @ApiResponse(responseCode = "404", description = "UsuÃ¡rio nÃ£o encontrado com o CPF informado")
+        @ApiResponse(responseCode = "200", description = "Usuário localizado e retornado com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido"),
+        @ApiResponse(responseCode = "404", description = "Usuário não encontrado com o CPF informado")
     })
     public ResponseEntity<Usuario> buscarPorCpf(@PathVariable String cpf) {
-        return usuarioService.buscarPorCpf(cpf).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        Usuario usuario = usuarioService.buscarPorCpf(cpf)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o CPF: " + cpf));
+        return ResponseEntity.ok(usuario);
     }
 
     @GetMapping("/telefone/{telefone}")
-    @Operation(summary = "Buscar usuÃ¡rio por telefone", description = "Busca um usuÃ¡rio pelo seu nÃºmero de telefone de contato. Rota protegida.")
+    @Operation(summary = "Buscar usuário por telefone", description = "Busca um usuário pelo seu número de telefone de contato. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "UsuÃ¡rio localizado e retornado com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido"),
-        @ApiResponse(responseCode = "404", description = "UsuÃ¡rio nÃ£o encontrado com o telefone informado")
+        @ApiResponse(responseCode = "200", description = "Usuário localizado e retornado com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido"),
+        @ApiResponse(responseCode = "404", description = "Usuário não encontrado com o telefone informado")
     })
     public ResponseEntity<Usuario> buscarPorTelefone(@PathVariable String telefone) {
-        return usuarioService.buscarPorTelefone(telefone).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Usuario usuario = usuarioService.buscarPorTelefone(telefone)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o telefone: " + telefone));
+        return ResponseEntity.ok(usuario);
     }
 
     @GetMapping("/genero/{genero}")
-    @Operation(summary = "Listar usuÃ¡rios por gÃªnero", description = "Retorna uma lista de usuÃ¡rios filtrados pelo caractere correspondente ao seu gÃªnero (M/F/O). Rota protegida.")
+    @Operation(summary = "Listar usuários por gênero", description = "Retorna uma lista de usuários filtrados pelo caractere correspondente ao seu gênero (M/F/O). Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Lista de usuÃ¡rios retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "200", description = "Lista de usuários retornada com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<List<Usuario>> buscarPorGenero(@PathVariable String genero) {
         return ResponseEntity.ok(usuarioService.buscarPorGenero(genero));
     }
 
     @GetMapping("/role/{role}")
-    @Operation(summary = "Listar usuÃ¡rios por papel (Role)", description = "Retorna uma lista de usuÃ¡rios filtrados pelo seu papel de acesso (ADMIN/ATLETA/TREINADOR). Rota protegida.")
+    @Operation(summary = "Listar usuários por papel (Role)", description = "Retorna uma lista de usuários filtrados pelo seu papel de acesso (ADMIN/ATLETA/TREINADOR). Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Lista de usuÃ¡rios retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "200", description = "Lista de usuários retornada com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<List<Usuario>> buscarPorRole(@PathVariable UserRole.Role role) {
         return ResponseEntity.ok(usuarioService.buscarPorRole(role));

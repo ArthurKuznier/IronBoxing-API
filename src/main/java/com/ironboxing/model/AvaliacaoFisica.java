@@ -18,17 +18,17 @@ public class AvaliacaoFisica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull(message = "O atleta Ã© obrigatÃ³rio")
+    @NotNull(message = "O atleta é obrigatório")
     @ManyToOne
     @JoinColumn(name = "atleta_id")
     private Atleta atleta;
-    @NotNull(message = "A data da avaliaÃ§Ã£o Ã© obrigatÃ³ria")
+    @NotNull(message = "A data da avaliação é obrigatória")
     private LocalDate dataAvaliacao;
-    @NotNull(message = "O peso Ã© obrigatÃ³rio")
+    @NotNull(message = "O peso é obrigatório")
     private BigDecimal peso;
-    @NotNull(message = "A altura Ã© obrigatÃ³ria")
+    @NotNull(message = "A altura é obrigatória")
     private Integer altura;
-    @NotNull(message = "O imc Ã© obrigatÃ³rio")
+    @NotNull(message = "O imc é obrigatório")
     private BigDecimal imc;
 
     public AvaliacaoFisica() {

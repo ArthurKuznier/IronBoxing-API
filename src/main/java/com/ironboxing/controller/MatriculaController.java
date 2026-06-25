@@ -18,18 +18,18 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/matriculas")
-@Tag(name = "MatrÃ­culas", description = "Endpoints de gerenciamento e consulta de matrÃ­culas de atletas")
+@Tag(name = "Matrículas", description = "Endpoints de gerenciamento e consulta de matrículas de atletas")
 public class MatriculaController {
 
     @Autowired
     private MatriculaService matriculaService;
 
     @PostMapping
-    @Operation(summary = "Criar nova matrÃ­cula", description = "Registra a matrÃ­cula de um atleta em uma turma sob um determinado plano. Rota protegida.")
+    @Operation(summary = "Criar nova matrícula", description = "Registra a matrícula de um atleta em uma turma sob um determinado plano. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "MatrÃ­cula criada com sucesso"),
-        @ApiResponse(responseCode = "400", description = "Dados invÃ¡lidos fornecidos"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "200", description = "Matrícula criada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<Matricula> criarMatricula(@Valid @RequestBody Matricula matricula) {
         Matricula criada = matriculaService.criarMatricula(matricula);
@@ -37,12 +37,12 @@ public class MatriculaController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar dados de uma matrÃ­cula", description = "Atualiza os dados de uma matrÃ­cula cadastrada pelo ID. Rota protegida.")
+    @Operation(summary = "Atualizar dados de uma matrícula", description = "Atualiza os dados de uma matrícula cadastrada pelo ID. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "MatrÃ­cula atualizada com sucesso"),
-        @ApiResponse(responseCode = "400", description = "Dados invÃ¡lidos fornecidos"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido"),
-        @ApiResponse(responseCode = "404", description = "MatrÃ­cula nÃ£o encontrada")
+        @ApiResponse(responseCode = "200", description = "Matrícula atualizada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido"),
+        @ApiResponse(responseCode = "404", description = "Matrícula não encontrada")
     })
     public ResponseEntity<Matricula> atualizarMatricula(@PathVariable Integer id,
             @Valid @RequestBody Matricula matricula) {
@@ -52,31 +52,31 @@ public class MatriculaController {
     }
 
     @GetMapping
-    @Operation(summary = "Listar todas as matrÃ­culas", description = "Retorna a lista de todas as matrÃ­culas cadastradas. Rota protegida.")
+    @Operation(summary = "Listar todas as matrículas", description = "Retorna a lista de todas as matrículas cadastradas. Rota protegida.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<List<Matricula>> listarMatriculas() {
         return ResponseEntity.ok(matriculaService.listarMatriculas());
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar matrÃ­cula por ID", description = "Retorna os detalhes de uma matrÃ­cula especÃ­fica pelo seu ID. Rota protegida.")
+    @Operation(summary = "Buscar matrícula por ID", description = "Retorna os detalhes de uma matrícula específica pelo seu ID. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "MatrÃ­cula retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido"),
-        @ApiResponse(responseCode = "404", description = "MatrÃ­cula nÃ£o encontrada")
+        @ApiResponse(responseCode = "200", description = "Matrícula retornada com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido"),
+        @ApiResponse(responseCode = "404", description = "Matrícula não encontrada")
     })
     public ResponseEntity<Matricula> buscarPorId(@PathVariable Integer id) {
         return matriculaService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Excluir uma matrÃ­cula", description = "Remove uma matrÃ­cula do sistema pelo seu ID. Rota protegida.")
+    @Operation(summary = "Excluir uma matrícula", description = "Remove uma matrícula do sistema pelo seu ID. Rota protegida.")
     @ApiResponses({
-        @ApiResponse(responseCode = "204", description = "MatrÃ­cula excluÃ­da com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "204", description = "Matrícula excluída com sucesso"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<Void> deletarMatricula(@PathVariable Integer id) {
         matriculaService.deletarMatricula(id);
@@ -84,40 +84,40 @@ public class MatriculaController {
     }
 
     @GetMapping("/atleta/{atletaId}")
-    @Operation(summary = "Listar matrÃ­culas por ID do atleta", description = "Retorna a lista de todas as matrÃ­culas associadas a um atleta especÃ­fico. Rota protegida.")
+    @Operation(summary = "Listar matrículas por ID do atleta", description = "Retorna a lista de todas as matrículas associadas a um atleta específico. Rota protegida.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<List<Matricula>> buscarPorAtletaId(@PathVariable Integer atletaId) {
         return ResponseEntity.ok(matriculaService.buscarPorAtletaId(atletaId));
     }
 
     @GetMapping("/plano/{planoId}")
-    @Operation(summary = "Listar matrÃ­culas por ID do plano", description = "Retorna a lista de todas as matrÃ­culas associadas a um plano especÃ­fico. Rota protegida.")
+    @Operation(summary = "Listar matrículas por ID do plano", description = "Retorna a lista de todas as matrículas associadas a um plano específico. Rota protegida.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<List<Matricula>> buscarPorPlanoId(@PathVariable Integer planoId) {
         return ResponseEntity.ok(matriculaService.buscarPorPlanoId(planoId));
     }
 
     @GetMapping("/situacao/{situacaoMat}")
-    @Operation(summary = "Listar matrÃ­culas por situaÃ§Ã£o", description = "Retorna as matrÃ­culas de acordo com a situaÃ§Ã£o (ex: ATIVA, INATIVA, CANCELADA). Rota protegida.")
+    @Operation(summary = "Listar matrículas por situação", description = "Retorna as matrículas de acordo com a situação (ex: ATIVA, INATIVA, CANCELADA). Rota protegida.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<List<Matricula>> buscarPorSituacaoMat(@PathVariable String situacaoMat) {
         return ResponseEntity.ok(matriculaService.buscarPorSituacaoMat(situacaoMat));
     }
 
     @GetMapping("/data/{dataMatricula}")
-    @Operation(summary = "Listar matrÃ­culas por data", description = "Retorna as matrÃ­culas realizadas em uma data especÃ­fica (formato YYYY-MM-DD). Rota protegida.")
+    @Operation(summary = "Listar matrículas por data", description = "Retorna as matrículas realizadas em uma data específica (formato YYYY-MM-DD). Rota protegida.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<List<Matricula>> buscarPorDataMatricula(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataMatricula) {
@@ -125,10 +125,10 @@ public class MatriculaController {
     }
 
     @GetMapping("/turma/{turmaId}")
-    @Operation(summary = "Listar matrÃ­culas por ID da turma", description = "Retorna todas as matrÃ­culas vinculadas a uma turma especÃ­fica. Rota protegida.")
+    @Operation(summary = "Listar matrículas por ID da turma", description = "Retorna todas as matrículas vinculadas a uma turma específica. Rota protegida.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT vÃ¡lido")
+        @ApiResponse(responseCode = "403", description = "Acesso negado - requer token JWT válido")
     })
     public ResponseEntity<List<Matricula>> buscarPorTurmaId(@PathVariable Integer turmaId) {
         return ResponseEntity.ok(matriculaService.buscarPorTurmaId(turmaId));

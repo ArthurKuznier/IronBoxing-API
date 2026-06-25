@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ironboxing.repository.AtletaRepository;
 import com.ironboxing.model.Atleta;
+import com.ironboxing.exception.BusinessException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,16 +16,16 @@ public class AtletaService {
     public Atleta criarAtleta(Atleta atleta) {
         Optional<Atleta> atletaCpfExistente = atletaRepository.findByUsuarioCpf(atleta.getUsuario().getCpf());
         if (atletaCpfExistente.isPresent()) {
-            throw new RuntimeException("Atleta jÃ¡ cadastrado, faÃ§a o login");
+            throw new BusinessException("Atleta já cadastrado, faça o login");
         }
         Optional<Atleta> atletaEmailExistente = atletaRepository.findByUsuarioEmail(atleta.getUsuario().getEmail());
         if (atletaEmailExistente.isPresent()) {
-            throw new RuntimeException("Atleta jÃ¡ cadastrado, faÃ§a o login");
+            throw new BusinessException("Atleta já cadastrado, faça o login");
         }
         Optional<Atleta> atletaTelefoneExistente = atletaRepository
                 .findByUsuarioTelefone(atleta.getUsuario().getTelefone());
         if (atletaTelefoneExistente.isPresent()) {
-            throw new RuntimeException("Atleta jÃ¡ cadastrado, faÃ§a o login");
+            throw new BusinessException("Atleta já cadastrado, faça o login");
         }
         return atletaRepository.save(atleta);
     }

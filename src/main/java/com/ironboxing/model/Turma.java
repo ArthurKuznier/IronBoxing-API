@@ -17,11 +17,11 @@ public class Turma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "A descriÃ§Ã£o da turma Ã© obrigatÃ³ria")
+    @NotBlank(message = "A descrição da turma é obrigatória")
     private String descricao;
-    @NotNull(message = "O horÃ¡rio da turma Ã© obrigatÃ³rio")
+    @NotNull(message = "O horário da turma é obrigatório")
     private LocalTime horario;
-    @NotNull(message = "O treinador da turma Ã© obrigatÃ³rio")
+    @NotNull(message = "O treinador da turma é obrigatório")
     @ManyToOne
     @JoinColumn(name = "treinador_id")
     private Treinador treinador;

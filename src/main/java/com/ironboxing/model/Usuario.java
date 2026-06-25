@@ -19,33 +19,33 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "O nome do usuÃ¡rio Ã© obrigatÃ³rio")
+    @NotBlank(message = "O nome do usuário é obrigatório")
     private String nome;
-    @NotBlank(message = "O email do usuÃ¡rio Ã© obrigatÃ³rio")
-    @Email(message = "O email deve ser vÃ¡lido")
+    @NotBlank(message = "O email do usuário é obrigatório")
+    @Email(message = "O email deve ser válido")
     private String email;
-    @NotBlank(message = "A senha do usuÃ¡rio Ã© obrigatÃ³ria")
+    @NotBlank(message = "A senha do usuário é obrigatória")
     private String senha;
-    @NotBlank(message = "O cpf do usuÃ¡rio Ã© obrigatÃ³rio")
+    @NotBlank(message = "O cpf do usuário é obrigatório")
     private String cpf;
-    @NotBlank(message = "O telefone do usuÃ¡rio Ã© obrigatÃ³rio")
+    @NotBlank(message = "O telefone do usuário é obrigatório")
     private String telefone;
-    @NotBlank(message = "O endereÃ§o do usuÃ¡rio Ã© obrigatÃ³rio")
+    @NotBlank(message = "O endereço do usuário é obrigatório")
     private String endereco;
-    @NotBlank(message = "O cep do usuÃ¡rio Ã© obrigatÃ³rio")
+    @NotBlank(message = "O cep do usuário é obrigatório")
     private String cep;
-    @NotBlank(message = "A cidade do usuÃ¡rio Ã© obrigatÃ³ria")
+    @NotBlank(message = "A cidade do usuário é obrigatória")
     private String cidade;
-    @NotBlank(message = "O estado do usuÃ¡rio Ã© obrigatÃ³rio")
+    @NotBlank(message = "O estado do usuário é obrigatório")
     private String estado;
-    @NotNull(message = "A data de nascimento do usuÃ¡rio Ã© obrigatÃ³ria")
+    @NotNull(message = "A data de nascimento do usuário é obrigatória")
     private LocalDate dataNascimento;
-    @NotBlank(message = "O gÃªnero do usuÃ¡rio Ã© obrigatÃ³rio")
+    @NotBlank(message = "O gênero do usuário é obrigatório")
     @Column(columnDefinition = "char(1)")
     @org.hibernate.annotations.JdbcTypeCode(java.sql.Types.CHAR)
     private String genero;
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "A role do usuÃ¡rio Ã© obrigatÃ³ria")
+    @NotNull(message = "A role do usuário é obrigatória")
     private UserRole.Role role;
 
     public Usuario() {

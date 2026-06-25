@@ -3,6 +3,7 @@ package com.ironboxing.service;
 import org.springframework.stereotype.Service;
 import com.ironboxing.model.Treinador;
 import com.ironboxing.repository.TreinadorRepository;
+import com.ironboxing.exception.BusinessException;
 import java.util.Optional;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +18,23 @@ public class TreinadorService {
         Optional<Treinador> treinadorCpfExistente = treinadorRepository
                 .findByUsuarioCpf(treinador.getUsuario().getCpf());
         if (treinadorCpfExistente.isPresent()) {
-            throw new RuntimeException("Treinador jÃ¡ cadastrado, faÃ§a o login");
+            throw new BusinessException("Treinador já cadastrado, faça o login");
         }
 
         Optional<Treinador> treinadorEmailExistente = treinadorRepository
                 .findByUsuarioEmail(treinador.getUsuario().getEmail());
         if (treinadorEmailExistente.isPresent()) {
-            throw new RuntimeException("Treinador jÃ¡ cadastrado, faÃ§a o login");
+            throw new BusinessException("Treinador já cadastrado, faça o login");
         }
 
         Optional<Treinador> treinadorTelefoneExistente = treinadorRepository
                 .findByUsuarioTelefone(treinador.getUsuario().getTelefone());
         if (treinadorTelefoneExistente.isPresent()) {
-            throw new RuntimeException("Treinador jÃ¡ cadastrado, faÃ§a o login");
+            throw new BusinessException("Treinador já cadastrado, faça o login");
         }
         Optional<Treinador> treinadorCrefExistente = treinadorRepository.findByCref(treinador.getCref());
         if (treinadorCrefExistente.isPresent()) {
-            throw new RuntimeException("Treinador jÃ¡ cadastrado, faÃ§a o login");
+            throw new BusinessException("Treinador já cadastrado, faça o login");
         }
         return treinadorRepository.save(treinador);
     }
@@ -42,23 +43,23 @@ public class TreinadorService {
         Optional<Treinador> treinadorCpfExistente = treinadorRepository
                 .findByUsuarioCpf(treinador.getUsuario().getCpf());
         if (treinadorCpfExistente.isPresent() && !treinadorCpfExistente.get().getId().equals(treinador.getId())) {
-            throw new RuntimeException("Dados cadastrais jÃ¡ existentes");
+            throw new BusinessException("Dados cadastrais já existentes");
         }
 
         Optional<Treinador> treinadorEmailExistente = treinadorRepository
                 .findByUsuarioEmail(treinador.getUsuario().getEmail());
         if (treinadorEmailExistente.isPresent() && !treinadorEmailExistente.get().getId().equals(treinador.getId())) {
-            throw new RuntimeException("Dados cadastrais jÃ¡ existentes");
+            throw new BusinessException("Dados cadastrais já existentes");
         }
 
         Optional<Treinador> treinadorTelefoneExistente = treinadorRepository
                 .findByUsuarioTelefone(treinador.getUsuario().getTelefone());
         if (treinadorTelefoneExistente.isPresent() && !treinadorTelefoneExistente.get().getId().equals(treinador.getId())) {
-            throw new RuntimeException("Dados cadastrais jÃ¡ existentes");
+            throw new BusinessException("Dados cadastrais já existentes");
         }
         Optional<Treinador> treinadorCrefExistente = treinadorRepository.findByCref(treinador.getCref());
         if (treinadorCrefExistente.isPresent() && !treinadorCrefExistente.get().getId().equals(treinador.getId())) {
-            throw new RuntimeException("CREF jÃ¡ cadastrado");
+            throw new BusinessException("CREF já cadastrado");
         }
         return treinadorRepository.save(treinador);
     }

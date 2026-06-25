@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ironboxing.model.Turma;
 import com.ironboxing.repository.TurmaRepository;
+import com.ironboxing.exception.BusinessException;
 import java.util.Optional;
 import java.util.List;
 import java.time.LocalTime;
@@ -17,7 +18,7 @@ public class TurmaService {
     public Turma criarTurma(Turma turma) {
         Optional<Turma> turmaExistente = turmaRepository.findByDescricao(turma.getDescricao());
         if (turmaExistente.isPresent()) {
-            throw new RuntimeException("Turma jÃ¡ cadastrada com essa descriÃ§Ã£o");
+            throw new BusinessException("Turma já cadastrada com essa descrição");
         }
         return turmaRepository.save(turma);
     }
@@ -25,7 +26,7 @@ public class TurmaService {
     public Turma atualizarTurma(Turma turma) {
         Optional<Turma> turmaExistente = turmaRepository.findByDescricao(turma.getDescricao());
         if (turmaExistente.isPresent() && !turmaExistente.get().getId().equals(turma.getId())) {
-            throw new RuntimeException("Turma jÃ¡ cadastrada com essa descriÃ§Ã£o");
+            throw new BusinessException("Turma já cadastrada com essa descrição");
         }
         return turmaRepository.save(turma);
     }

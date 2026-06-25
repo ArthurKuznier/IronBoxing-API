@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ironboxing.model.Matricula;
 import com.ironboxing.repository.MatriculaRepository;
+import com.ironboxing.exception.BusinessException;
 import java.util.Optional;
 import java.util.List;
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class MatriculaService {
                 .anyMatch(m -> m.getTurma().getId().equals(matricula.getTurma().getId())
                         && "A".equals(m.getSituacaoMat()));
         if (jaAtivo) {
-            throw new RuntimeException("Atleta jÃ¡ possui matrÃ­cula ativa nesta turma");
+            throw new BusinessException("Atleta já possui matrícula ativa nesta turma");
         }
         return matriculaRepository.save(matricula);
     }
@@ -35,7 +36,7 @@ public class MatriculaService {
                 .anyMatch(m -> m.getTurma().getId().equals(matricula.getTurma().getId())
                         && "A".equals(m.getSituacaoMat()) && !m.getId().equals(matricula.getId()));
         if (jaAtivo) {
-            throw new RuntimeException("Atleta jÃ¡ possui matrÃ­cula ativa nesta turma");
+            throw new BusinessException("Atleta já possui matrícula ativa nesta turma");
         }
         return matriculaRepository.save(matricula);
     }
