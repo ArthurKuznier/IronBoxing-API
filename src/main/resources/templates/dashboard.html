@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Iron Boxing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <div class="sidebar-header">
+                🥊 Iron Boxing
+            </div>
+            <nav>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/dashboard" class="sidebar-link active">
+                            <span>🏠</span> Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/atletas" class="sidebar-link">
+                            <span>👥</span> Atletas
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile-summary">
+                    <span>Logado como:</span>
+                    <strong th:text="${username}">usuario@ironboxing.com</strong>
+                </div>
+                <button id="btn-logout" class="btn btn-outline">Sair da Conta</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="app-content">
+            <div class="page-header">
+                <h1>Painel de Controle</h1>
+                <p>Monitore os indicadores e cadastros da academia de boxe</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Atletas Ativos</span>
+                    <span class="stat-value" th:text="${totalAtletas}">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Treinadores</span>
+                    <span class="stat-value" th:text="${totalTreinadores}">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Planos de Boxe</span>
+                    <span class="stat-value" th:text="${totalPlanos}">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Turmas Ativas</span>
+                    <span class="stat-value" th:text="${totalTurmas}">0</span>
+                </div>
+            </div>
+
+            <!-- Dashboard Details / Quick Actions -->
+            <div class="data-card" style="padding: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Visão Geral do Sistema</h3>
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem;">
+                    A API Iron Boxing está rodando em modo de produção seguro com banco de dados PostgreSQL. 
+                    Toda a navegação do painel é validada no lado do servidor de forma stateless através de cookies JSON Web Token (JWT).
+                </p>
+                <a href="/atletas" class="btn" style="width: auto; display: inline-flex;">Gerenciar Atletas</a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('btn-logout').addEventListener('click', function() {
+            // Remove o cookie contendo o token JWT
+            document.cookie = "JWT-TOKEN=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict";
+            // Redireciona de volta para o login
+            window.location.href = '/login';
+        });
+    </script>
+</body>
+</html>

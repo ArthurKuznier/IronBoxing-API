@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atletas - Iron Boxing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <div class="sidebar-header">
+                🥊 Iron Boxing
+            </div>
+            <nav>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/dashboard" class="sidebar-link">
+                            <span>🏠</span> Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/atletas" class="sidebar-link active">
+                            <span>👥</span> Atletas
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile-summary">
+                    <span>Logado como:</span>
+                    <strong th:text="${username}">usuario@ironboxing.com</strong>
+                </div>
+                <button id="btn-logout" class="btn btn-outline">Sair da Conta</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="app-content">
+            <div class="page-header">
+                <h1>Gerenciamento de Atletas</h1>
+                <p>Veja e gerencie a lista de atletas cadastrados na academia</p>
+            </div>
+
+            <!-- Table Card -->
+            <div class="data-card">
+                <div class="data-card-header">
+                    <h3>Lista de Perfis de Atletas</h3>
+                    <div>
+                        <input type="text" id="search-input" class="form-control" placeholder="Buscar atleta por nome..." style="max-width: 250px; padding: 0.5rem 1rem;">
+                    </div>
+                </div>
+                
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>Gênero</th>
+                            </tr>
+                        </thead>
+                        <tbody id="atletas-table-body">
+                            <tr th:each="atleta : ${atletas}">
+                                <td th:text="${atleta.id}">1</td>
+                                <td class="font-title" th:text="${atleta.usuario.nome}">Nome do Atleta</td>
+                                <td th:text="${atleta.usuario.email}">email@exemplo.com</td>
+                                <td th:text="${atleta.usuario.cpf}">000.000.000-00</td>
+                                <td th:text="${atleta.usuario.telefone}">(11) 99999-9999</td>
+                                <td>
+                                    <span class="badge badge-atleta" th:text="${atleta.usuario.genero}">M</span>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(atletas)}">
+                                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                    Nenhum atleta cadastrado no sistema.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Logout logic
+        document.getElementById('btn-logout').addEventListener('click', function() {
+            document.cookie = "JWT-TOKEN=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict";
+            window.location.href = '/login';
+        });
+
+        // Simple client-side search/filter
+        document.getElementById('search-input').addEventListener('keyup', function() {
+            const query = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#atletas-table-body tr');
+            
+            rows.forEach(row => {
+                const nameCell = row.querySelector('.font-title');
+                if (nameCell) {
+                    const name = nameCell.textContent.toLowerCase();
+                    if (name.includes(query)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

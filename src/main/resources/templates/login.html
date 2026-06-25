@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Iron Boxing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                🥊 Iron Boxing
+            </div>
+            <div class="auth-header">
+                <h2>Bem-vindo de volta</h2>
+                <p>Insira suas credenciais para acessar o painel administrativo</p>
+            </div>
+            
+            <div id="error-alert" class="alert-danger" style="display: none;">
+                Email ou senha inválidos. Por favor, tente novamente.
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">Endereço de E-mail</label>
+                    <input type="email" id="email" class="form-control" placeholder="exemplo@ironboxing.com" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input type="password" id="senha" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn">Acessar Painel</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const errorAlert = document.getElementById('error-alert');
+            
+            errorAlert.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/usuarios/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Falha na autenticação');
+                }
+
+                const data = await response.json();
+                
+                // Grava o token em um cookie seguro no navegador
+                document.cookie = `JWT-TOKEN=${data.token}; path=/; max-age=86400; SameSite=Strict`;
+                
+                // Redireciona para o Dashboard
+                window.location.href = '/dashboard';
+                
+            } catch (error) {
+                console.error('Erro no login:', error);
+                errorAlert.textContent = 'Erro ao fazer login: e-mail ou senha inválidos.';
+                errorAlert.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
